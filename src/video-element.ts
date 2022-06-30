@@ -1,9 +1,9 @@
 import { Events } from './events';
 import { BasePlayer } from "./baseplayer";
 
-export class Video extends BasePlayer {
+export class VideoElement extends BasePlayer {
     static get observedAttributes() {
-        return ['camera', 'src', 'islooping', 'playbackrate']
+        return ['usecamera', 'src', 'islooping', 'playbackrate']
     }
 
     /**
@@ -35,6 +35,23 @@ export class Video extends BasePlayer {
 
     public override get canRecord() {
         return true;
+    }
+
+    /**
+     * use camera
+     */
+    protected _useCamera: boolean = this.hasAttribute('usecamera');
+
+    public get useCamera() {
+        return this._useCamera;
+    }
+
+    public set useCamera(val: boolean) {
+        if (val) {
+            this.setAttribute('usecamera', '');
+        } else {
+            this.removeAttribute('usecamera');
+        }
     }
 
     constructor() {
@@ -75,7 +92,7 @@ export class Video extends BasePlayer {
 
         this.videoEl.onloadedmetadata = () => this.onMetadata();
         this.videoEl.onloadeddata = () => {
-            if (this.hasAttribute('autoplay') || this.hasAttribute('camera')) {
+            if (this.hasAttribute('autoplay') || this.hasAttribute('usecamera')) {
                 if (this.hasAttribute('mute')) {
                     this.videoEl.muted = true;
                 }
@@ -141,17 +158,6 @@ export class Video extends BasePlayer {
         this.videoEl.playbackRate = rate;
     }
 
-    public get src() {
-        if (this.hasAttribute('camera')) {
-            return 'camera';
-        }
-        return this.getAttribute('src') || '';
-    }
-
-    public set src(val: string) {
-        this.videoEl.src = val;
-    }
-
     /**
      * get video element's natural size
      */
@@ -202,7 +208,7 @@ export class Video extends BasePlayer {
             sourceChange = true;
         }
 
-        if (this.hasAttribute('camera')) {
+        if (this.hasAttribute('usecamera')) {
             this.stream = await navigator.mediaDevices.getUserMedia({
                 'audio': true,
                 'video': {
@@ -213,7 +219,7 @@ export class Video extends BasePlayer {
             this.videoEl.srcObject = this.stream;
             this.videoEl.muted = true;
             sourceChange = true;
-        } else if (!this.hasAttribute('camera') && this.videoEl.srcObject) {
+        } else if (!this.hasAttribute('usecamera') && this.videoEl.srcObject) {
             this.videoEl.srcObject = null;
             if (this.stream) {
                 this.stream.getTracks()[0].stop();
@@ -230,11 +236,13 @@ export class Video extends BasePlayer {
     protected async attributeChangedCallback(name: string, oldval: string, newval: string) {
         switch (name) {
             case 'src':
-                if (newval !== oldval && this.isComponentMounted && !this.hasAttribute('camera')) {
+                this._src = newval;
+                if (newval !== oldval && this.isComponentMounted) {
                     this.loadCurrentSource();
                 }
                 break;
-            case 'camera':
+            case 'usecamera':
+                this._useCamera = this.hasAttribute('usecamera');
                 if (this.isComponentMounted) {
                     this.loadCurrentSource();
                 }
@@ -308,4 +316,4 @@ export class Video extends BasePlayer {
     }
 }
 
-customElements.define('video-element', Video);
+customElements.define('video-element', VideoElement);

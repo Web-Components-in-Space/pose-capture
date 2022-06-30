@@ -3,12 +3,35 @@ Sorry, but we won't be testing today, so I'm going to get rid of the few test fi
 But after that, as our first step, let's just create a normal video player and see if we can play simple video files.
 
 We're going to start with an extremely simple "base" player to inherit from. This will come in handy when we have 
-a player that needs to act like a video player but instead plays pose keyframes.
+a player that needs to act like a video player but instead plays pose keyframes. 
 
-After that we'll inherit from the base to make our "video-element", which supports simple video playback and swap out the sample
-element demo for our `video-element`, adding in a sample video to play.
+With the base player in, we'll add the `VideoElement` class to extend it such that it can actually play videos.
 
-Unfortunately, we can't autoplay this when the page loads because Chrome doesn't
+There are some things to notice as we work on this plain Web Component with no help from Lit. We're stuck using just the 
+web standards here. You can see that we actually have to create a `shadowRoot` to use the Shadow DOM. And of course,
+to populate our component, we're setting the `innerHTML`, even adding a `style` block.
+
+Another thing that Lit usually takes care of for us, is "reflection". This is where
+we can set either attributes through HTML or properties through Javascript, and they keep
+in sync with one another. 
+
+For example, we want to set our `src` to a video URL. We can do this by setting `myelement.src`, 
+or setting the `src` attribute in HTML. If we do it one way, we need to be able to retrieve the same value
+back. To do this, we need to basically use a getter and setter when using Javascript. This can set the attribute,
+and then we use an attribute callback handler to listen and set the internal backing property.
+
+The important thing is to rely on the attribute to make changes, and when we listen to the attribute
+changes, we can take action on the change and update the internal property. You have to be careful, because
+it can be super easy to get into an infinite loop here when syncing!
+
+The other thing here is that attributes are case-sensitive! So I'll typically lowercase these
+attributes so there's no confusion on how to case them.
+
+After all of this, we'll make a demo page, which entails tweaking our `index.html` to show that we're linking
+to our `video-element` demo. And then inside the `dev` folder, we'll change `index.html` to `video-element.html`
+because we're going to end up with a few different demos.
+
+Unfortunately, as we build out our demo page, we can't autoplay this when the page loads because browsers don't
 allow autoplaying without first interacting with the page. So we'll make a quick play button
 on our demo page which interacts with the `video-element` component.
 
@@ -20,11 +43,14 @@ hard-coding our strings in the video player.
 
 As we add these events, we can add a couple listeners on our demo page and see this in action.
 
+It would also be nice to demo our webcam, so we'll add a little checkbox to turn on or off the 'useCamera'
+property and attribute.
+
 We'll finish this step up there, but before we do, you may notice your IDE flagging
 a few new files as untracked by git. The Lit template has compiled our Typescript and dumped
 them in the root of our project.
 
-This is interesting! When we publish our project, this template is having us deliver
+This is interesting! When we publish our project, this template is having us build out
 these transpiled files at the root. Eventually we'll add an index.js as well to make consumption 
 easier.
 

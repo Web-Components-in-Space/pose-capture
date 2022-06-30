@@ -44,10 +44,6 @@ export interface Player extends PlayerState {
 }
 
 export class BasePlayer extends HTMLElement implements Player {
-    constructor() {
-        super();
-    }
-
     protected connectedCallback() {
         this.dispatchEvent(new Event(Events.READY, { composed: true, bubbles: true } ));
     }
@@ -59,16 +55,15 @@ export class BasePlayer extends HTMLElement implements Player {
     /**
      * playback rate
      */
-    protected _playbackRate: number = this.hasAttribute('playbackRate') ?
-        Number(this.getAttribute('playbackRate')) : 1;
+    protected _playbackRate: number = this.hasAttribute('playbackrate') ?
+        Number(this.getAttribute('playbackrate')) : 1;
 
     public get playbackRate() {
         return this._playbackRate;
     }
 
     public set playbackRate(val: number) {
-        this._playbackRate = val;
-        if (this._playbackRate) {
+        if (val) {
             this.setAttribute('playbackrate', String(val));
         }
         this.changePlaybackRate(val);
@@ -84,11 +79,27 @@ export class BasePlayer extends HTMLElement implements Player {
     }
 
     public set isLooping(val: boolean) {
-        this._isLooping = val;
-        if (this._isLooping) {
+        if (val) {
             this.setAttribute('islooping', '');
         } else {
             this.removeAttribute('islooping');
+        }
+    }
+
+    /**
+     * current video source
+     */
+    protected _src?: string = this.hasAttribute('src') ? this.getAttribute('src') as string : undefined;
+
+    public get src(): string | undefined {
+        return this._src;
+    }
+
+    public set src(val: string | undefined) {
+        if (val === undefined) {
+            this.removeAttribute('src')
+        } else {
+            this.setAttribute('src', val);
         }
     }
 
