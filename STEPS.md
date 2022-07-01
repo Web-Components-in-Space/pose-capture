@@ -1,3 +1,79 @@
+### Step 3 - Adding Player Controls and Subclassing Event
+Ideally, we wouldn't need that extra play button in our demo. Instead,
+actual player controls sitting at the bottom of our player would be great.
+
+So, we're going to quickly copy in some UI elements that I previously created.
+What's neat about these elements is that they DO use Lit, whereas the actual component
+that'll host them (the video player), does not. But past that, they are pretty normal
+and minimal UI components which ultimately make up the "playbackcontrols" component.
+
+Instead of instantiating the controls inside the component directly, it might be best
+to make them optional. This means that the `video-element` component consumer can
+use them or not.
+
+So here's what we'll do: add them as slots! As we add the controls to our project, Typescript 
+generates the `ui/playbackcontrols.js` to our root for us. So we'll pop the new
+playback controls right into our demo by both importing the JS and adding the markup
+as a child of `video-element`.
+
+We'll also need to add a `slot` element to our `video-element` component and do some light
+styling to give anything in the slot 100% width as well as absolute positioning to make any slotted
+elements overlay over the player instead of flow in a layout.
+
+As we pop that in we'll notice that the control bar is there in our demo, but 
+doesn't have any controls yet. This is because we haven't passed it our player state yet,
+so it doesn't know we're ready to use the controls. 
+
+So, we're going to add an `updateControls` method and sprinkle in some calls when the video
+metadata is loaded and when our timer fires to update our current playback time.
+
+This `updateControls` method is interesting! You can see how we can query and iterate through our
+slotted elements, whatever they may be and set information on each one. We actually will have one more
+slotted element by the time we're done, but the point here is that anyone using this could make their
+own element, and if it followed the `PlayerState` interface we created in Typescript, it can easily
+be dropped into the slot.
+
+I think this is important because the controls might not have the visual look you want or even the controls
+and features you necessarily want. Consumers of this player component can easily make their own
+and drop them in easily.
+
+So that covers communication into our controls (or any other slotted elements), but what if we want to listen
+for events from the controls? Well, we have several types of events to listen for: play/pause, timeline scrubbing, stepping,
+and even more once we make this more than a video player! We also want the event to carry with it
+all of our player state, the same properties that we just pushed out to the slots. So there's a fair bit of info to carry
+with what would be more convenient as a single event we can listen to, rather than having multiple events that we'd have
+to set up multiple listeners for.
+
+In past episodes we explored the `CustomEvent` and I said there was a newer and better way.
+If you recall, `CustomEvent`s can carry that extra information. But you have to initialize those each and every time
+with this extra information. And as we explored before, and even in this project, it's nice to have string constants
+for these events, so they can be auto-completed from Typescript instead of you typing strings every time that can easily be
+messed up. You can see these constants in our `events.ts` class.
+
+But for this new `PlaybackEvent`, we're going to subclass your normal, everyday event. When doing this, we can
+actually keep those constants inside the new event class! No external dependencies. You want info about an event you're receiving,
+just look at the subclassed `PlaybackEvent`!
+
+Additionally, we can have extra logic inside the event itself. We're going to be a bit lazy, and pass our complete `VideoElement`
+component instance into the event to capture our `PlayerState`. Inside the event, we'll have a simple method to capture only the
+properties we need without passing on the entire `VideoElement` component to receivers of the event.
+
+You might imagine that we can add lots more functionality to these everyday events, but for this, it's all we need. As I said in past episodes,
+subclassing Events are a bit of a game changer for me! `CustomEvent`s have always been a tiny bit annoying.
+
+There's lots of player functionality that I did hand-wave over, but as we use the demo page, we can see a bunch of things working!
+In fact, let's remove the play button from this demo page, as it's really not necessary anymore.
+
+Also, notice that there's some whitespace above the controls, because our video's aspect ratio causes some
+letter-boxing as it fills the component space. Let's add a default background color to our `video-element` component to make this 
+look a little less confusing. As you can see in our demo, we can easily override this to a different color.
+
+As we keep playing with our demo, there's one thing that looks broken - and that's scrubbing! We've learned a couple 
+of new-ish things so far, but this is our first real weird problem! We'll solve it in the next step...
+
+
+
+
 ### Step 2 - Make a Scrubbable Video Player
 Sorry, but we won't be testing today, so I'm going to get rid of the few test files we have just to clean things up.
 But after that, as our first step, let's just create a normal video player and see if we can play simple video files.

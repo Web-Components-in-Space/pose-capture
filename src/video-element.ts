@@ -65,6 +65,7 @@ export class VideoElement extends BasePlayer {
                     display: inline-block;
                     overflow: hidden;
                     position: relative;
+                    background-color: black;
                 }
                 
                 :host(.connected) {
@@ -125,6 +126,7 @@ export class VideoElement extends BasePlayer {
 
     protected onTimerUpdate() {
         this._currentTime = this.videoEl.currentTime * 1000;
+        this.updateControls();
         this.dispatchEvent(new Event(Events.TIME_UPDATE, { bubbles: true, composed: true }));
     }
 
@@ -184,6 +186,7 @@ export class VideoElement extends BasePlayer {
         this.resize();
         this.dispatchEvent(new Event(Events.METADATA, { bubbles: true, composed: true }));
         this._duration = this.videoEl.duration * 1000;
+        this.updateControls();
     }
 
     protected override connectedCallback() {
