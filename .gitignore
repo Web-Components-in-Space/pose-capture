@@ -3,8 +3,8 @@
 /test/
 custom-elements.json
 # top level source
-baseplayer.*
-events.*
-video-element.*
+/baseplayer.*
+/events.*
+/video-element.*
 # only generated for size check
 my-element.bundled.js

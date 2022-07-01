@@ -70,17 +70,8 @@ export class VideoElement extends BasePlayer {
                 :host(.connected) {
                     display: inline-block;
                 }
-                
-                video, ::slotted(*) {
-                    position: absolute;
-                }
-                    
-                ::slotted(*) {
-                    width: 100%;
-                }
             </style>
-            <video playsinline></video>
-            <slot></slot>`;
+            <video playsinline></video>`;
         }
 
         this.videoEl = this.shadowRoot?.querySelector('video') as HTMLVideoElement;
