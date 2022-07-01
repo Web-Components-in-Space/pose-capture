@@ -103,6 +103,7 @@ export class VideoElement extends BasePlayer {
 
         this.videoEl.onpause = () => {
             this._isPlaying = false;
+            this.updateControls();
             clearInterval(this.timer as number);
             this.dispatchEvent(new Event(Events.VIDEO_PAUSE, { bubbles: true, composed: true }));
         }
@@ -121,6 +122,7 @@ export class VideoElement extends BasePlayer {
                 }, 100);
                 this.dispatchEvent(new Event(Events.VIDEO_PLAY, { bubbles: true, composed: true }));
             }
+            this.updateControls();
         }
     }
 
