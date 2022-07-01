@@ -1,3 +1,39 @@
+### Step 4 - Extending Web Dev Server with Range Requests
+So, the player works pretty well, but looks like we can't scrub or use the step
+frame buttons.
+
+It's an interesting reason that has nothing to do with our code. The reason is that 
+Web Dev server does not support partial ranges. This is important when working with 
+progressively downloaded video.
+
+You can do a simple play because the bytes that get requested from the server is in order
+and keeps streaming "progressively" as you play it.
+
+However, to fast-forward to another part of the video, you might have to wait until
+the entire video has been buffered. Ideally, you'd be able to request specific bytes
+from the middle of the video. So, your server has to support a feature called "HTTP Range Requests".
+
+This is true even if we were using a normal HTML Video element rather than our custom Web Component
+based player.
+
+As it happens, this is an incredibly easy, but obscure fix! To add support, we need to recognize
+that Web Dev Server is built on top of something called "Koa". Koa, https://koajs.com, is a web framework
+that runs on Node.js. It's a lot like "Express". If you've ever built an app with Node for building something
+like a REST service, you might have use Express.
+
+Koa is similar with some architectural differences, but seems to solve approximately the same types 
+of problems. It also offers middleware plugins which can change how Koa works with and handles server requests.
+
+We're going to add "koa-range" to Web Dev Server by simply doing `npm install koa-range --save-dev`, and then
+adding it to our `web-dev-server.config` in the `middlewares` list.
+
+Of course nothing is TOO easy, because we get complaints that Koa-Range is using CommonJS and not ES Modules.
+Oops! We'll simply need to convert our `web-dev-server.config.js` to `web-dev-server.config.cjs` and change the 
+configuration object within to CommonJS.
+
+Now as we restart Web Dev Server and use our demo, we can scrub! We have a video player!
+And onto the exciting and more difficult part, getting Tensorflow.js pose capture working...
+
 ### Step 3 - Adding Player Controls and Subclassing Event
 Ideally, we wouldn't need that extra play button in our demo. Instead,
 actual player controls sitting at the bottom of our player would be great.

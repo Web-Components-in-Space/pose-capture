@@ -63,7 +63,8 @@
     "rollup": "^2.73.0",
     "rollup-plugin-summary": "^1.4.3",
     "rollup-plugin-terser": "^7.0.2",
-    "typescript": "~4.6.4"
+    "typescript": "~4.6.4",
+    "koa-range": "^0.3.0"
   },
   "customElements": "custom-elements.json"
 }
