@@ -1,3 +1,74 @@
+### Step 5 - Using Rollup Bundles to use Tensorflow.js
+There are a number of Tensorflow.js packages we'll be wanting to use. We'll make several components.
+Both "BodyPix" and "PoseDetection" can tackle whole body pose tracking, meaning it'll track points
+from your head/eyes/ears, down to your ankles. 
+
+"Hand-Pose-Detection" tracks keypoints along your hands only, and "Face-Landmarks-Detection"
+grabs an entire 3D face mesh.
+
+Meanwhile, there are a few foundational packages to enable these and provide some core Tensorflow.js functionality.
+We have "tfjs-core", "tfjs-converter", and "tfjs-backend-webgl" to give us some zippier WebGL computational power.
+
+We'll install all of these, but we'll find that we immediately run into issues using them. 
+Of course we should try! So, let's add a tiny little import in our top level "index.html" file and
+run the `npm run serve` task to show the demo.
+
+Right away we see CommonJS issues as we import. We've covered using Web Dev server plugins in a previous
+episode, but even as we use plugins to help here, we have some Node.js issues. Meaning there is some code that
+gets executed that is supposed to run in Node.js. It SHOULD fail gracefully, but when importing these Node.js
+object aren't found and it throws errors. There are some other weird issues once we get past these as well.
+
+I spent a lot of time playing whack-a-mole with all of these issues. I personally couldn't get it working with
+Web Dev Server. But also, why SHOULD this work with Web Dev Server? Why should a component we're making for external
+use require very specific Web Dev Server plugins and setup?
+
+I've stumbled on a strategy in the past to help with tricky situations like this one, and that is to "pre-bundle" with Rollup
+as ES Modules we can use instead of reaching out to our `node_modules` folder.
+
+So lets get cracking! Since I've already spent time pulling out my hair on this, I know we need two extra Rollup plugins that
+aren't included with this Lit template. As I hinted, they are `@rollup/plugin-commonjs` for working with CommonJS files and 
+`rollup-plugin-node-polyfills` for polyfilling Node.js code with harmless (non-error throwing) browser compatible Javascript.
+There's also `@rollup/plugin-alias` so we can alias an internal import and switch out a dependency with our own pre-bundled one.
+We're also using the `@rollup/plugin-replace` plugin to do some sneaky variable name replacement, but since this is already
+installed with the Lit template, we're fine there.
+
+After `npm install`, we can start creating a Rollup configuration for bundling. We already do have a `rollup.config.js` at our project
+root. This is usually what we'd use for bundling our entire component, so let's not put our "pre-bundling" config here.
+Instead, I'm going to make a folder called "lib-prebundle" and put our Rollup config in here.
+
+For each of our pose solutions (whether for whole body, face, or hands), we'll pop in a "bundle" file.
+These JS files will simply `export * as` for whatever solution we're bundling. This simple import
+will get the files into Rollup, where Rollup will bundle these as ES Module based bundles that we can simply import and dump
+these bundles into a "libs" folder in our project.
+
+Once this is all setup, we can add a "lib-prebundle" task to our `package.json`. After running this new task, we now
+see our brand new bundles in our "libs" folder.
+
+With those now created, lets do a simple import and see if anything crashes (good news it doesnt!).
+
+Now let's really try this, lets create something to take in an image, and output a pose. We'll keep working in this
+demo index.html file for now. However, we will create a new 'posedetection.ts' file inside our "src" directory as something
+we'll expand on in the future.
+
+Temporarily, I've added a "dancer.webp" image to the root folder for our demo to pick up and analyze the pose.
+I wasn't sure how well this would work because this lady is in a dress that covers a lot of her legs up,
+but rendering these points to the canvas, it seems to work super well!
+
+Interestingly enough, we see that we can either get `keypoints` OR `keypoints3D`. That's pretty cool right?
+Some of these Tensorflow.js modules do offer 3D points, which is exciting, however we'll be focusing on 2D primarily
+in our component since we want to overlay the points over our video and when grabbing the 3D points,
+they are offered in meters. Someday we'll do the conversion, but not today!
+
+So this step was probably the most difficult to work out for this project. There's lots 
+to overcome as we adapt these packages to work with ES modules, but through lots of time poking around, 
+it's able to be done, and we can offer everything as a simple Web Component that works with simple
+imports.
+
+In our next step, we'll be fleshing out our `pose-player` package with actual pose components.
+
+
+
+
 ### Step 4 - Extending Web Dev Server with Range Requests
 So, the player works pretty well, but looks like we can't scrub or use the step
 frame buttons.

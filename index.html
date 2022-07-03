@@ -4,8 +4,27 @@
   <head>
     <meta charset="utf-8" />
     <title>Lit Starter Kit</title>
+    <script type="module">
+      import {processFrame, load} from "./tensorflow/posedetection.js";
+
+      await load();
+
+      const canvas = document.body.querySelector('canvas');
+      canvas.width = 1067;
+      canvas.height = 1600;
+      const ctx = canvas.getContext('2d');
+
+      const pose = await processFrame(document.body.querySelector('img'));
+      pose.keypoints.forEach((keypoint) => {
+          ctx.beginPath();
+          ctx.arc(keypoint.x, keypoint.y, 5, 0, 2 * Math.PI, false);
+          ctx.fill();
+      });
+    </script>
   </head>
   <body>
     <a href="/dev/video-element.html">Video Element Demo</a>
+    <canvas></canvas>
+    <img src="dancer.webp" width="250"/>
   </body>
 </html>
