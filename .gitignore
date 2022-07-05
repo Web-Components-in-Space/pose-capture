@@ -6,6 +6,15 @@ custom-elements.json
 /baseplayer.*
 /events.*
 /video-element.*
-playbackevent.*
+/playbackevent.*
+/tensorflow
+/ui
+/bodypix-video.*
+/facelandmark-video.*
+/handpose-video.*
+/posedetection-video.*
+/videopose-element.*
+/keyframeevent.*
+
 # only generated for size check
 my-element.bundled.js

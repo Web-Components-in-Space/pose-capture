@@ -3,28 +3,55 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Lit Starter Kit</title>
-    <script type="module">
-      import {processFrame, load} from "./tensorflow/posedetection.js";
-
-      await load();
-
-      const canvas = document.body.querySelector('canvas');
-      canvas.width = 1067;
-      canvas.height = 1600;
-      const ctx = canvas.getContext('2d');
-
-      const pose = await processFrame(document.body.querySelector('img'));
-      pose.keypoints.forEach((keypoint) => {
-          ctx.beginPath();
-          ctx.arc(keypoint.x, keypoint.y, 5, 0, 2 * Math.PI, false);
-          ctx.fill();
-      });
-    </script>
+    <title>Pose Player Demos</title>
+    <style>
+      p {
+        border-color: #666;
+        border-width: 1px;
+        border-style: solid;
+        padding: 20px;
+      }
+    </style>
   </head>
   <body>
-    <a href="/dev/video-element.html">Video Element Demo</a>
-    <canvas></canvas>
-    <img src="dancer.webp" width="250"/>
+
+    <p>
+      <a href="/dev/handpose-video.html">HandPose Demo</a>
+      <br/><br/>
+      HandPose tracks points on your hands and fingers
+    </p>
+
+    <p>
+      <a href="/dev/facelandmark-video.html">FaceLandmark Demo</a>
+      <br/><br/>
+      FaceLandmark generates points to create a 3D face mesh
+    </p>
+
+    <p>
+      <a href="/dev/bodypix-video.html">BodyPix Demo</a>
+      <br/><br/>
+      BodyPix tracks whole body poses
+    </p>
+
+    <p>
+      <a href="/dev/posedetection-video.html">Pose Detection Demo</a>
+      <br/><br/>
+      Posedetection tracks whole body poses
+    </p>
+
+    <p>
+      <a href="/dev/videopose-element.html">VideoPose Element Demo</a>
+      <br/><br/>
+      Video Pose Element performs simple video or webcam playback. It serves as a base class
+      for creating the pose components. It can perform simple recording, which, without pose capture
+      capabilities is only audio recording.
+    </p>
+
+    <p>
+      <a href="/dev/video-element.html">Video Element Demo</a>
+      <br/><br/>
+      Video Element performs simple video or webcam playback. It serves as a base class
+      for creating the base class which then powers pose components
+    </p>
   </body>
 </html>

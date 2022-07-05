@@ -1,3 +1,36 @@
+### Step 6 - Adding our Pose Components
+First lets start by backing out our demo code, and continue by adding all of the code to run our components.
+We'll start by filling in our `src/tensorflow` folder with the code that enables us to process a frame of an image source
+(images OR frames from videos).
+
+These modules will process an input, and create a JSON representation of a keyframe including 
+point positions, and other helpful things like aspect ratio of the image processed, time, etc.
+
+The points we'll be returning will NOT be pixel values, but instead values of 0-1
+where 0 is the furthest left or furthest top, and 1 is the opposite. This will let us
+scale to fit these points and draw them in whatever size container we need.
+
+Next we'll create a `videopose-element` which extends the `video-element`. This component won't
+yet be the final component that gets consumed but serves as a yet another building block that
+has a lot of common functionality needed to give us each and every pose component variation.
+
+We'll also build some functionality in this base class to record keyframes and even audio so that both
+can be played back simultaneously.
+
+One other thing we'll additionally want is the ability to either send events with keyframe pose data in them
+or take action on a slotted component to show these keyframes. More to come on this in the next step!
+
+With this `videopose-element` in place, we can now just add each of our various pose components. Again, that's
+"posedetection" and "bodypix" for full body capture, "facelandmarks" for a face mesh, and finally "handpose" for 
+capturing your hand and fingers.
+
+We do want a way to test our components out prior to visualizing the points, so I'd like to add one more
+subclassed event. This will be the `keyframeevent` and in addition to holding keyframes with points,
+there will also be a way to filter just the "parts" you want. So for example, if you only wanted an elbow 
+position, there's a method on this subclassed event to get it.
+
+Lets add all of those component demos to our project and try them out!
+
 ### Step 5 - Using Rollup Bundles to use Tensorflow.js
 There are a number of Tensorflow.js packages we'll be wanting to use. We'll make several components.
 Both "BodyPix" and "PoseDetection" can tackle whole body pose tracking, meaning it'll track points
