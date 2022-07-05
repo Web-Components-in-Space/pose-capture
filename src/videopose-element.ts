@@ -2,6 +2,7 @@ import { VideoElement } from './video-element';
 import { Events} from './events';
 import { PlaybackEvent } from './playbackevent';
 import { KeyframeEvent } from './keyframeevent';
+import { AbstractPoseVisualizer } from './abstractvisualizer';
 
 export interface Point {
     name?: string;
@@ -83,6 +84,15 @@ export class VideoPoseBase extends VideoElement {
         if (!this.hasStarted) {
             this.hasStarted = true;
             this.dispatchEvent(new Event(Events.POSE_TRACKING_STARTED, { bubbles: true, composed: true }));
+        }
+        const slot = this.shadowRoot?.querySelector('slot');
+        if (slot) {
+            slot.assignedElements().forEach( (slotted: any) => {
+                if (slotted.draw) {
+                    const viz: AbstractPoseVisualizer = slotted as unknown as AbstractPoseVisualizer;
+                    viz.draw(keyframes, this.videoBounds);
+                }
+            });
         }
 
         if (keyframes.length > 0) {

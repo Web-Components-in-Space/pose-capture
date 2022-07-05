@@ -15,6 +15,10 @@ custom-elements.json
 /posedetection-video.*
 /videopose-element.*
 /keyframeevent.*
+/abstractvisualizer.*
+/visualization-canvas.*
+/pose-player.*
+
 
 # only generated for size check
 my-element.bundled.js

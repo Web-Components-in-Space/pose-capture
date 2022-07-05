@@ -6,6 +6,8 @@
     <title>&lt;bodypix-video> Demo</title>
     <script type="module" src="../bodypix-video.js"></script>
     <script type="module" src="../ui/playbackcontrols.js"></script>
+    <script type="module" src="../visualization-canvas.js"></script>
+    <script src="demos.js"></script>
     <style>
       p {
         border: solid 1px blue;
@@ -20,7 +22,8 @@
     </style>
   </head>
   <body>
-    <bodypix-video src="./sampleassets/samplevideo.mp4">
+    <bodypix-video src="./sampleassets/conan.mp4">
+      <visualization-canvas dotcolor="#ff0000" dotbackcolor="#000000"></visualization-canvas>
       <pose-playback-controls></pose-playback-controls>
     </bodypix-video>
 
@@ -29,6 +32,10 @@
   </body>
 
   <script>
+    document.body.querySelector('bodypix-video').addEventListener('endrecording', (e) => {
+      onEndRecording(e);
+    });
+
     document.body.querySelector('bodypix-video').addEventListener('poseKeyframe', (e) => {
       console.log(e);
     });

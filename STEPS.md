@@ -1,3 +1,42 @@
+### Step 7 - Visualization & Playback
+We've verified pose events coming out of our components! But what good are they if we can't see them?
+We're going to need to visualize these keyframe and all the points. Not only does it look cool, but
+it helps verify that we're recording them correctly. We should be able to watch these visualizations live with
+the videos as they appear over the bodypart they represent.
+
+What's the best way to do this, though? I don't think we want a particular way of visualizing these points to be
+hardcoded into our components. Maybe the best way is to take the approach we used with our player controls UI and make
+it a slot that has a certain API that we use to send keyframes to. Even better, because we're using Typescript, we can make 
+a lightweight abstract class that any visualization solution can inherit from.
+
+So, lets add that abstract class AND an example visualization component. Again, it's just an example, and any consumer
+of this project can simply make their own with the same API (just like the player controls).
+
+After adding those components, we can simply add some code in our `videopose-element` to update any slots with the new
+keyframes when they get calculated and `onPoseFrame` gets called.
+
+I also think it might be a great time to add some better demo videos. I'm not SUCH a fan of checking in big files to git
+that don't take advantage of source control, but I don't know of an easier/better way to have sample files as part of this repo
+that will ALSO get deployed to a demo site.
+
+Regardless, these new sample videos will better highlight specific areas of pose capture (face, body, hands).
+
+As we try these new demo files, the record button on our player controls is definitely sticking out as something we haven't taken
+advantage of yet. Pressing the record button and then ending the record session seemingly doesn't do anything, but that's
+simply because we aren't listening for the right event in our demos. 
+
+With that in mind, lets create a common demo function to listen for the `endrecording` event, create a downloadable file, and
+add a link to our demo page that a user can click on and download this file.
+
+Trying it out, it works! We can open this JSON file in our editor and see the pose data and even the audio data (if we recorded audio).
+But what to do with this file? Well, think back to our original component inheritance. We started with `baseplayer` which we then
+extended to `video-element` which can play videos. Let's use this `baseplayer` class to create a `pose-player`. This new pose player
+will consume these new JSON files and play them back, just as if we were using a video source, except we don't have one!
+We're not using Tensorflow.js at all in this player, just playing back the keyframes.
+
+With that in place, we can create a demo page and offer a menu to choose a recording from any of our pose components (face, body, hands).
+Already I'm seeing some things to take care of in the future like making the slow playback on this `pose-player` work.
+
 ### Step 6 - Adding our Pose Components
 First lets start by backing out our demo code, and continue by adding all of the code to run our components.
 We'll start by filling in our `src/tensorflow` folder with the code that enables us to process a frame of an image source

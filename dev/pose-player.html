@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>&lt;video-element> Demo</title>
+    <script type="module" src="../pose-player.js"></script>
+    <script type="module" src="../ui/playbackcontrols.js"></script>
+    <script type="module" src="../visualization-canvas.js"></script>
+    <style>
+      p {
+        border: solid 1px blue;
+        padding: 8px;
+      }
+
+      pose-player {
+        width: 640px;
+        height: 480px;
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <pose-player src="./sampleassets/conan-bodypix.json">
+      <visualization-canvas dotcolor="#ff0000" dotbackcolor="#000000"></visualization-canvas>
+      <pose-playback-controls></pose-playback-controls>
+    </pose-player>
+
+    <br />
+    <select onchange="document.body.querySelector('pose-player').src = event.target.value">
+      <option>./sampleassets/conan-bodypix.json</option>
+      <option>./sampleassets/conan-posedetection.json</option>
+      <option>./sampleassets/conan-facelandmark.json</option>
+      <option>./sampleassets/piano.json</option>
+    </select>
+  </body>
+</html>

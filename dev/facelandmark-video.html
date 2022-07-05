@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>&lt;facelandmarks-video> Demo</title>
+    <script type="module" src="../facelandmark-video.js"></script>
+    <script type="module" src="../ui/playbackcontrols.js"></script>
+    <script type="module" src="../visualization-canvas.js"></script>
+    <script src="demos.js"></script>
+    <style>
+      p {
+        border: solid 1px blue;
+        padding: 8px;
+      }
+
+      facelandmark-video {
+        width: 640px;
+        height: 480px;
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <facelandmark-video src="./sampleassets/conan-face.mp4">
+      <visualization-canvas dotcolor="#ff0000" dotbackcolor="#000000"></visualization-canvas>
+      <pose-playback-controls></pose-playback-controls>
+    </facelandmark-video>
+
+    <br />
+    <label>Use Camera</label><input onchange="document.body.querySelector('facelandmark-video').useCamera = event.target.checked" type="checkbox" />
+  </body>
+
+  <script>
+    document.body.querySelector('facelandmark-video').addEventListener('poseKeyframe', (e) => {
+      console.log(e);
+    });
+
+    document.body.querySelector('facelandmark-video').addEventListener('endrecording', (e) => {
+      onEndRecording(e);
+    });
+  </script>
+</html>

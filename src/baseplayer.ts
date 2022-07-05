@@ -230,6 +230,7 @@ export class BasePlayer extends HTMLElement implements Player {
             slot.assignedElements().forEach( (slotted: any) => {
                 const controls: PlayerState = slotted;
                 if (controls) {
+                    console.log('time', this.currentTime, '/', this.duration)
                     controls.isLooping = this.isLooping;
                     controls.isPlaying = this.isPlaying;
                     controls.currentTime = this.currentTime;
