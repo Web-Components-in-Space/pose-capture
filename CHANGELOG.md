@@ -1,3 +1,9 @@
+## 0.1.5
+
+### Changes
+
+- Documentation and README updates, plus general package organization
+
 ## 0.1.4
 
 ### Changes

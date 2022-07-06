@@ -5,10 +5,6 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy('docs-src/docs.css');
   eleventyConfig.addPassthroughCopy('docs-src/examples/sample.json');
   eleventyConfig.addPassthroughCopy('docs-src/.nojekyll');
-  eleventyConfig.addPassthroughCopy(
-    'node_modules/@webcomponents/webcomponentsjs'
-  );
-  eleventyConfig.addPassthroughCopy('node_modules/lit/polyfill-support.js');
   return {
     dir: {
       input: 'docs-src',

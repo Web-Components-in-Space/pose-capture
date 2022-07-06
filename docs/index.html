@@ -1,0 +1,108 @@
+
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pose Capture ⌲ Home</title>
+    <link rel="stylesheet" href="docs.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600|Roboto+Mono">
+    <link href="prism-okaidia.css" rel="stylesheet" />
+    <script type="module" src="pose-capture.bundled.js"></script>
+  </head>
+  <body>
+    
+<header>
+  <h1>Pose Capture</h1>
+  <h3>A set of components to perform live pose capture, recording, <br /> and visualization on humans</h3>
+</header>
+    
+<nav>
+  <a href="">Home</a>
+  <a href="examples/">Examples</a>
+  <a href="api/">API</a>
+  <a href="install/">Install</a>
+</nav>
+    <div id="main-wrapper">
+      <main>
+        <h1>Pose-Capture</h1>
+<p>Pose Capture is a package which contains a number of custom elements related to capturing and recording poses in
+various ways, all enabled by <a href="https://www.tensorflow.org/js/">Tensorflow.js</a>.</p>
+<p>Each of these components act like a normal video player, but allow pose tracking, eventing, and
+overlay visualization of the points.</p>
+<p>These pose capture components can record keyframes to a JSON file, and offer the option
+of recording audio from the video source to allow playback synced with the keyframe points.</p>
+<p>Video sources can be a video file supported by your browser or your webcam. As video data needs
+to be analyzed by Tensorflow.js, they are subject to the same security restrictions
+as any video being captured to a <code>&lt;canvas&gt;</code> element. This typically means that your video
+can't come from a different domain and must be done over HTTPS.</p>
+<p>Most of the components DO deliver a depth coordinate to compliment the X/Y
+coordinates, however as the first goal of this package is to overlay points accurately
+over video, there hasn't been much thought put into how to normalize/use this 3rd dimension.
+Additionally, some of these solutions can deliver full 3D keypoints as well, but these
+are in meters, and don't map well to pixels on your screen.</p>
+<p>Hopefully the 3D story will be fleshed out in future updates.</p>
+<h2>Main Components</h2>
+<p>The main components in this library serve to show video playback from a source,
+whether a browser supported video file or a user's webcam.</p>
+<p>Without the helper components listed below, these components will not show
+visualization or a playback controls UI.</p>
+<p><br /><br /></p>
+<h3><code>&lt;posedetection-video&gt;</code></h3>
+<p><code>&lt;posedetection-video&gt;</code> is to capture full-body poses. The currently configured
+Pose Detection solution uses <a href="https://storage.googleapis.com/tfjs-models/demos/pose-detection/index.html?model=blazepose">BlazePose</a>.</p>
+<p>MediaPipe BlazePose can detect 33 keypoints, in addition to the 17 COCO keypoints,
+it provides additional keypoints for face, hands and feet.</p>
+<p><br /><br /></p>
+<h3><code>&lt;bodypix-video&gt;</code></h3>
+<p><code>&lt;bodypix-video&gt;</code> is to capture full-body poses. The currently configured
+BodyPix solution tracks similar points as the <code>&lt;posedetection-video&gt;</code> above, but seems
+a bit less accurate, at least the way it's configured in this package. BodyPix seems more appropriate for
+live segmentation, so the use-case presented here might not be appropriate for how it was
+intended. More exploration is needed, so unless you know what you're doing, you
+may want to rely on <code>&lt;posedetection-video&gt;</code> instead.</p>
+<p><br /><br /></p>
+<h3><code>&lt;facelandmark-video&gt;</code></h3>
+<p><code>&lt;facelandmark-video&gt;</code> is to capture many points to create something that can
+be used as a 3D mesh of a person's face.</p>
+<p>This component uses <a href="https://storage.googleapis.com/tfjs-models/demos/face-landmarks-detection/index.html">MediaPipe Facemesh</a>
+as the engine.</p>
+<p><br /><br /></p>
+<h3><code>&lt;handpose-video&gt;</code></h3>
+<p><code>&lt;handpose-video&gt;</code> is to capture points along a person's hand including along each of their fingers.</p>
+<p>This component uses <a href="https://storage.googleapis.com/tfjs-models/demos/hand-pose-detection/index.html?model=mediapipe_hands">MediaPipe Hands</a>
+as the engine.</p>
+<p><br /><br /></p>
+<h3><code>&lt;pose-player&gt;</code></h3>
+<p><code>&lt;pose-player&gt;</code> is to playback keyframes and audio captured by the above components</p>
+<p><br /><br /></p>
+<h2>Helper Components</h2>
+<p>Helper components are designed to live as children inside the main pose capture
+components. They adhere to a specific API and live as slotted elements, where the parent
+component passes playback state or keyframes to them.</p>
+<p>These components have a specific look/style, that can be customized a small bit, but the intention
+is for consumers of this package to create their own using either the <code>PlayerState</code> interface for
+creating UI controls, or the <code>AbstractVisualizer</code> class for visualization.</p>
+<p>When adding both of these as children, be careful about order. A visualizer that takes
+up the entire size of the component can block mouse input to the player controls.</p>
+<p><br /><br /></p>
+<h3><code>&lt;pose-playback-controls&gt;</code></h3>
+<p><code>&lt;pose-playback-controls&gt;</code> is a component designed to be a child inside an above
+pose capture, and offers playback and recording controls for a video.</p>
+<p><br /><br /></p>
+<h3><code>&lt;visualization-canvas&gt;</code></h3>
+<p><code>&lt;visualization-canvas&gt;</code> is a component designed to be a child inside an above
+pose capture, and offers an overlay layer to see points captured on a given keyframe</p>
+
+      </main>
+    </div>
+    
+<footer>
+  <p>
+    Made with
+    <a href="https://github.com/lit/lit-element-starter-ts">lit-starter-ts</a>
+  </p>
+</footer>
+  </body>
+</html>
