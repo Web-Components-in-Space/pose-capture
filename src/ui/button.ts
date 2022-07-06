@@ -3,7 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 
 @customElement('pose-button')
 export class Button extends LitElement {
-    @property({ type: Boolean, reflect: true }) disabled: boolean = false;
+    @property({ type: Boolean, reflect: true }) disabled = false;
 
     static override styles = [ css`
       :host {

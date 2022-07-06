@@ -1,3 +1,40 @@
+### Final Step - Publishing and Sample App
+I'm sure there are going to be many little bugs to fix, but overall, our components seem
+to work fairly well! I think it's time to get this published. We can explore some of the tools that Lit
+gives us with the template we cloned.
+
+As a first step, lets try some linting. Lit has a nice `lit-analyzer` tool to check for any mistakes
+you may have made. And as we run `npm run lint`, we see that YES, there are a couple of 
+mistakes in the `playbackcontrols.ts` file. 2 of the lit decorators we're using have been marked with the 
+wrong property type. So lets fix that.
+
+Once that's done, there's a few Typescript issues. Nothing major. I DID use `any` and `@ts-ignore` at a
+few spots because I didn't want to dwell on finding the exact right Typescript solution,
+but the rest is complaints that I shouldn't type variables that can be "trivially inferred".
+Lets try the `--fix` option it recommends to see if these can be corrected automatically.
+
+Using `eslint 'src/**/*.ts' --fix`, it does correct all of those "trivial type" issues.
+
+Before continuing on, we should create an entry point for our component and edit some fields
+in our package.json to make this component truly our own. We'll create `pose-capture.ts` and export
+all of our components within this package that folks may want to use.
+
+This will now help to generate a "Custom Elements Manifest". This is a JSON file that lists your components and their APIs.
+We can run `npm run analyze` and a `custom-elements.json` file is created.
+
+Next, lets see if we can use another tool to check the size. I don't expect this to be small AT ALL. We're
+using some big pre-bundled Tensorflow.js libraries, and if you consume all of them, I'm sure its big.
+Unfortunately, running `npm run checksize` fails. This points out a problem with consuming the package.
+The bundler for calculating size uses the generated top-level JS files (just like a consumer would), and it errors out!
+This is because the relative paths where our code looks for these "pre-bundled" Tensorflow files aren't actually the same for
+our Typescript sources and our transpiled Javascript. So lets modify our `lib-prebundle` task to put the Tensorflow bundles in
+the `src/libs` folder for local dev and then copy them over to another top level `libs` folder for normal external consumption.
+
+With that in place, yep, `npm run checksize` reports our `pose-capture.bundled.js` comes in at 3.61MB for everything together.
+
+We can keep going and edit markdown in the docs site to make some snazzy docs. Once we're satisfied, we can publish on NPM and make a
+quick demo app!
+
 ### Step 7 - Visualization & Playback
 We've verified pose events coming out of our components! But what good are they if we can't see them?
 We're going to need to visualize these keyframe and all the points. Not only does it look cool, but

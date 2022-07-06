@@ -10,23 +10,23 @@ import {BasePlayer, PlayerState} from "../baseplayer";
 
 @customElement('pose-playback-controls')
 export class PlaybackControls extends LitElement implements PlayerState {
-    @property({ type: Number, reflect: true }) currentTime: number = 0;
+    @property({ type: Number, reflect: true }) currentTime = 0;
 
-    @property({ type: Number, reflect: true }) duration: number = 0;
+    @property({ type: Number, reflect: true }) duration = 0;
 
-    @property({ type: Boolean, reflect: true }) isPlaying: boolean = false;
+    @property({ type: Boolean, reflect: true }) isPlaying = false;
 
-    @property({ type: Boolean, reflect: true }) isLooping: boolean = false;
+    @property({ type: Boolean, reflect: true }) isLooping = false;
 
-    @property({ type: Boolean, reflect: true }) isRecording: boolean = false;
+    @property({ type: Boolean, reflect: true }) isRecording = false;
 
-    @property({ type: Boolean, reflect: true }) isAudioRecording: boolean = false;
+    @property({ type: Boolean, reflect: true }) isAudioRecording = false;
 
-    @property({ type: Boolean, reflect: true }) recordingDuration: number = -1;
+    @property({ type: Number, reflect: true }) recordingDuration = -1;
 
-    @property({ type: Number, reflect: true }) playbackRate: number = 1;
+    @property({ type: Number, reflect: true }) playbackRate = 1;
 
-    @property({ type: Number, reflect: true }) canRecord: boolean = false;
+    @property({ type: Boolean, reflect: true }) canRecord = false;
 
     static override styles = css`
       :host {

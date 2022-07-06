@@ -18,6 +18,7 @@ custom-elements.json
 /abstractvisualizer.*
 /visualization-canvas.*
 /pose-player.*
+/pose-capture.*
 
 
 # only generated for size check

@@ -4,7 +4,7 @@ import { Button } from "./button";
 
 @customElement('pose-toggle-button')
 export class ToggleButton extends Button {
-    @property({ type: Boolean, reflect: true }) active: boolean = false;
+    @property({ type: Boolean, reflect: true }) active = false;
 
     static override styles = [ ...Button.styles, css`
       :host([active]) button {

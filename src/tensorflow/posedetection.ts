@@ -1,6 +1,6 @@
 // @ts-ignore
-import { posedetection, PoseDetector } from '../../libs/posedetection-bundle.js';
-import '../../../libs/tensorflow-bundle.js';
+import { posedetection, PoseDetector } from '../libs/posedetection-bundle.js';
+import '../libs/tensorflow-bundle.js';
 import { Keyframe, VideoPoseBase } from '../videopose-element';
 import {  Pose, Keypoint } from '@tensorflow-models/pose-detection';
 

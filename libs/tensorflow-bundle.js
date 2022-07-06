@@ -1594,6 +1594,21 @@ function makeKey(kernelName, backendName) {
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
+function getAugmentedNamespace(n) {
+	if (n.__esModule) return n;
+	var a = Object.defineProperty({}, '__esModule', {value: true});
+	Object.keys(n).forEach(function (k) {
+		var d = Object.getOwnPropertyDescriptor(n, k);
+		Object.defineProperty(a, k, d.get ? d : {
+			enumerable: true,
+			get: function () {
+				return n[k];
+			}
+		});
+	});
+	return a;
+}
+
 var long = Long$1;
 
 /**
@@ -19920,7 +19935,7 @@ function rand_(shape, randFunction, dtype) {
 }
 const rand = op({ rand_ });
 
-var alea$1 = {exports: {}};
+var alea$3 = {exports: {}};
 
 (function (module) {
 // A port of an algorithm by Johannes Baagøe <baagoe@baagoe.com>, 2010
@@ -20035,9 +20050,18 @@ if (module && module.exports) {
   module,    // present in node.js
   (typeof undefined) == 'function'    // present with an AMD loader
 );
-}(alea$1));
+}(alea$3));
 
-var xor128$1 = {exports: {}};
+var alea$1 = alea$3.exports;
+
+var alea$2 = /*#__PURE__*/_mergeNamespaces({
+    __proto__: null,
+    'default': alea$1
+}, [alea$3.exports]);
+
+var require$$0 = /*@__PURE__*/getAugmentedNamespace(alea$2);
+
+var xor128$3 = {exports: {}};
 
 (function (module) {
 // A Javascript implementaion of the "xor128" prng algorithm by
@@ -20119,9 +20143,18 @@ if (module && module.exports) {
   module,    // present in node.js
   (typeof undefined) == 'function'    // present with an AMD loader
 );
-}(xor128$1));
+}(xor128$3));
 
-var xorwow$1 = {exports: {}};
+var xor128$1 = xor128$3.exports;
+
+var xor128$2 = /*#__PURE__*/_mergeNamespaces({
+    __proto__: null,
+    'default': xor128$1
+}, [xor128$3.exports]);
+
+var require$$1 = /*@__PURE__*/getAugmentedNamespace(xor128$2);
+
+var xorwow$3 = {exports: {}};
 
 (function (module) {
 // A Javascript implementaion of the "xorwow" prng algorithm by
@@ -20208,9 +20241,18 @@ if (module && module.exports) {
   module,    // present in node.js
   (typeof undefined) == 'function'    // present with an AMD loader
 );
-}(xorwow$1));
+}(xorwow$3));
 
-var xorshift7$1 = {exports: {}};
+var xorwow$1 = xorwow$3.exports;
+
+var xorwow$2 = /*#__PURE__*/_mergeNamespaces({
+    __proto__: null,
+    'default': xorwow$1
+}, [xorwow$3.exports]);
+
+var require$$2 = /*@__PURE__*/getAugmentedNamespace(xorwow$2);
+
+var xorshift7$3 = {exports: {}};
 
 (function (module) {
 // A Javascript implementaion of the "xorshift7" algorithm by
@@ -20309,9 +20351,18 @@ if (module && module.exports) {
   module,    // present in node.js
   (typeof undefined) == 'function'    // present with an AMD loader
 );
-}(xorshift7$1));
+}(xorshift7$3));
 
-var xor4096$1 = {exports: {}};
+var xorshift7$1 = xorshift7$3.exports;
+
+var xorshift7$2 = /*#__PURE__*/_mergeNamespaces({
+    __proto__: null,
+    'default': xorshift7$1
+}, [xorshift7$3.exports]);
+
+var require$$3 = /*@__PURE__*/getAugmentedNamespace(xorshift7$2);
+
+var xor4096$3 = {exports: {}};
 
 (function (module) {
 // A Javascript implementaion of Richard Brent's Xorgens xor4096 algorithm.
@@ -20459,9 +20510,18 @@ if (module && module.exports) {
   module,    // present in node.js
   (typeof undefined) == 'function'    // present with an AMD loader
 );
-}(xor4096$1));
+}(xor4096$3));
 
-var tychei$1 = {exports: {}};
+var xor4096$1 = xor4096$3.exports;
+
+var xor4096$2 = /*#__PURE__*/_mergeNamespaces({
+    __proto__: null,
+    'default': xor4096$1
+}, [xor4096$3.exports]);
+
+var require$$4 = /*@__PURE__*/getAugmentedNamespace(xor4096$2);
+
+var tychei$3 = {exports: {}};
 
 (function (module) {
 // A Javascript implementaion of the "Tyche-i" prng algorithm by
@@ -20564,9 +20624,18 @@ if (module && module.exports) {
   module,    // present in node.js
   (typeof undefined) == 'function'    // present with an AMD loader
 );
-}(tychei$1));
+}(tychei$3));
 
-var seedrandom$1 = {exports: {}};
+var tychei$1 = tychei$3.exports;
+
+var tychei$2 = /*#__PURE__*/_mergeNamespaces({
+    __proto__: null,
+    'default': tychei$1
+}, [tychei$3.exports]);
+
+var require$$5 = /*@__PURE__*/getAugmentedNamespace(tychei$2);
+
+var seedrandom$3 = {exports: {}};
 
 /*
 Copyright 2014 David Bau.
@@ -20813,7 +20882,16 @@ if (module.exports) {
   [],     // pool: entropy pool starts empty
   Math    // math: package containing random, pow, and seedrandom
 );
-}(seedrandom$1));
+}(seedrandom$3));
+
+var seedrandom$1 = seedrandom$3.exports;
+
+var seedrandom$2 = /*#__PURE__*/_mergeNamespaces({
+    __proto__: null,
+    'default': seedrandom$1
+}, [seedrandom$3.exports]);
+
+var require$$6 = /*@__PURE__*/getAugmentedNamespace(seedrandom$2);
 
 // A library of seedable RNGs implemented in Javascript.
 //
@@ -20827,17 +20905,17 @@ if (module.exports) {
 // alea, a 53-bit multiply-with-carry generator by Johannes Baagøe.
 // Period: ~2^116
 // Reported to pass all BigCrush tests.
-var alea = alea$1.exports;
+var alea = require$$0;
 
 // xor128, a pure xor-shift generator by George Marsaglia.
 // Period: 2^128-1.
 // Reported to fail: MatrixRank and LinearComp.
-var xor128 = xor128$1.exports;
+var xor128 = require$$1;
 
 // xorwow, George Marsaglia's 160-bit xor-shift combined plus weyl.
 // Period: 2^192-2^32
 // Reported to fail: CollisionOver, SimpPoker, and LinearComp.
-var xorwow = xorwow$1.exports;
+var xorwow = require$$2;
 
 // xorshift7, by François Panneton and Pierre L'ecuyer, takes
 // a different approach: it adds robustness by allowing more shifts
@@ -20845,7 +20923,7 @@ var xorwow = xorwow$1.exports;
 // with 256 bits, that passes BigCrush with no systmatic failures.
 // Period 2^256-1.
 // No systematic BigCrush failures reported.
-var xorshift7 = xorshift7$1.exports;
+var xorshift7 = require$$3;
 
 // xor4096, by Richard Brent, is a 4096-bit xor-shift with a
 // very long period that also adds a Weyl generator. It also passes
@@ -20854,18 +20932,18 @@ var xorshift7 = xorshift7$1.exports;
 // collisions.
 // Period: 2^4128-2^32.
 // No systematic BigCrush failures reported.
-var xor4096 = xor4096$1.exports;
+var xor4096 = require$$4;
 
 // Tyche-i, by Samuel Neves and Filipe Araujo, is a bit-shifting random
 // number generator derived from ChaCha, a modern stream cipher.
 // https://eden.dei.uc.pt/~sneves/pubs/2011-snfa2.pdf
 // Period: ~2^127
 // No systematic BigCrush failures reported.
-var tychei = tychei$1.exports;
+var tychei = require$$5;
 
 // The original ARC4-based prng included in this library.
 // Period: ~2^1600
-var sr = seedrandom$1.exports;
+var sr = require$$6;
 
 sr.alea = alea;
 sr.xor128 = xor128;

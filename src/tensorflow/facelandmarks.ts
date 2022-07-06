@@ -1,6 +1,6 @@
 // @ts-ignore
-import { facelandmarks } from '../../libs/facelandmarks-bundle.js';
-import '../../../libs/tensorflow-bundle.js';
+import { facelandmarks } from '../libs/facelandmarks-bundle.js';
+import '../libs/tensorflow-bundle.js';
 import { FaceLandmarksDetector } from "@tensorflow-models/face-landmarks-detection/dist/types";
 import {
     AnnotatedPrediction,

@@ -1,34 +1,34 @@
 ---
 layout: example.11ty.cjs
-title: <my-element> ⌲ Examples ⌲ Basic
+title: Pose Capture ⌲ Examples ⌲ Basic
 tags: example
 name: Basic
-description: A basic example
+description: Full body visualization
 ---
 
 <style>
-  my-element p {
-    border: solid 1px blue;
-    padding: 8px;
+  posedetection-video {
+    width: 640px;
+    height: 480px;
   }
 </style>
-<my-element>
-  <p>This is child content</p>
-</my-element>
+<posedetection-video usecamera>
+    <visualization-canvas></visualization-canvas>
+</posedetection-video>
 
 <h3>CSS</h3>
 
 ```css
-p {
-  border: solid 1px blue;
-  padding: 8px;
+posedetection-video {
+    width: 640px;
+    height: 480px;
 }
 ```
 
 <h3>HTML</h3>
 
 ```html
-<my-element>
-  <p>This is child content</p>
-</my-element>
+<posedetection-video usecamera>
+    <visualization-canvas></visualization-canvas>
+</posedetection-video>
 ```

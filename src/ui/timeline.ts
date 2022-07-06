@@ -3,8 +3,8 @@ import { customElement, property } from 'lit/decorators.js';
 
 @customElement('pose-timeline')
 export class Timeline extends LitElement {
-    @property({ type: Number, reflect: true }) progress: number = 0;
-    @property({ type: Number, reflect: true }) scrubProgress: number = -1;
+    @property({ type: Number, reflect: true }) progress = 0;
+    @property({ type: Number, reflect: true }) scrubProgress = -1;
 
     static override styles = css`
       :host {

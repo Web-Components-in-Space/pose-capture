@@ -1,6 +1,6 @@
 // @ts-ignore
-import * as handPoseDetection from '../../libs/handpose-bundle.js';
-import '../../libs/tensorflow-bundle.js';
+import * as handPoseDetection from '../libs/handpose-bundle.js';
+import '../libs/tensorflow-bundle.js';
 import { HandDetector, Hand } from '@tensorflow-models/hand-pose-detection';
 import {Keyframe, VideoPoseBase} from '../videopose-element';
 import { Keypoint } from '@tensorflow-models/hand-pose-detection/dist/types';

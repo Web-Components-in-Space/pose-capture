@@ -1,6 +1,6 @@
 // @ts-ignore
-import { bodypix } from '../../libs/bodypix-bundle.js';
-import '../../libs/tensorflow-bundle.js';
+import { bodypix } from '../libs/bodypix-bundle.js';
+import '../libs/tensorflow-bundle.js';
 import { BodyPix } from '@tensorflow-models/body-pix/dist/body_pix_model';
 import { VideoPoseBase, Keyframe } from '../videopose-element';
 import { Keypoint, Pose } from '@tensorflow-models/body-pix/dist/types';
