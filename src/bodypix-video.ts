@@ -1,7 +1,7 @@
 import { VideoPoseBase } from './videopose-element';
 import { load, processFrame, parts } from './tensorflow/bodypix.js';
 
-export default class BodyPixVideo extends VideoPoseBase {
+export class BodyPixVideo extends VideoPoseBase {
     override get poseType() { return 'bodypix'; }
 
     override get parts() {

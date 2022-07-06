@@ -1,7 +1,7 @@
 import { VideoPoseBase } from './videopose-element';
 import {load, processFrame} from './tensorflow/facelandmarks';
 
-export default class FaceLandmarkVideo extends VideoPoseBase {
+export class FaceLandmarkVideo extends VideoPoseBase {
     override get poseType() { return 'facelandmark'; }
 
     override get parts() {

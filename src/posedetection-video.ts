@@ -1,7 +1,7 @@
 import { VideoPoseBase } from './videopose-element';
 import {load, processFrame} from './tensorflow/posedetection';
 
-export default class PoseDetectionVideo extends VideoPoseBase {
+export class PoseDetectionVideo extends VideoPoseBase {
     override get poseType() { return 'posedetection'; }
 
     override get parts() {

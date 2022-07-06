@@ -3,7 +3,7 @@ import { Events } from './events';
 import { AbstractPoseVisualizer } from './abstractvisualizer';
 import {BasePlayer} from "./baseplayer";
 
-export default class PosePlayer extends BasePlayer {
+export class PosePlayer extends BasePlayer {
     static get observedAttributes() {
         return ['islooping', 'src']
     }

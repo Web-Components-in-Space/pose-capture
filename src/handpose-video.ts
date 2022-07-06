@@ -1,7 +1,7 @@
 import { VideoPoseBase } from './videopose-element';
 import { load, processFrame, parts } from './tensorflow/handpose';
 
-export default class HandPoseVideo extends VideoPoseBase {
+export class HandPoseVideo extends VideoPoseBase {
     override get poseType() { return 'handpose'; }
 
     override get parts() { return parts; }
