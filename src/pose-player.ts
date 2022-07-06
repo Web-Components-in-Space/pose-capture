@@ -164,8 +164,11 @@ export class PosePlayer extends BasePlayer {
         if (slot) {
             slot.assignedElements().forEach( (slotted: any) => {
                 if (slotted.draw) {
+                    const bounds =  this.getBoundingClientRect();
                     const viz: AbstractPoseVisualizer = slotted as unknown as AbstractPoseVisualizer;
-                    viz.draw([ this.keyframes[this.currentKeyframe] ], this.getBoundingClientRect());
+                    viz.draw(
+                        [ this.keyframes[this.currentKeyframe] ],
+                        { width: bounds.width, height: bounds.height, x: 0, y: 0 });
                 }
             });
         }
