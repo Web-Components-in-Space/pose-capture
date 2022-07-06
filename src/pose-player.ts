@@ -234,6 +234,8 @@ export class PosePlayer extends BasePlayer {
     }
 
     protected disconnectedCallback() {
+        this.audio?.pause();
+        this.audio = undefined;
         clearInterval(this.timer as number);
     }
 }
