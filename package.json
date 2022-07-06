@@ -1,6 +1,6 @@
 {
   "name": "pose-capture",
-  "private": true,
+  "private": false,
   "version": "0.1.0",
   "description": "A set of components to perform Tensorflow.js pose detection on hands, face, and body. Provides a player to perform visualization overlays while source video or webcam is playing.",
   "main": "pose-capture.js",
