@@ -217,10 +217,7 @@ export class VideoElement extends BasePlayer {
         if (this.hasAttribute('usecamera')) {
             this.stream = await navigator.mediaDevices.getUserMedia({
                 'audio': true,
-                'video': {
-                    width: this.width,
-                    height: this.height,
-                },
+                'video': true,
             });
             this.videoEl.srcObject = this.stream;
             this.videoEl.muted = true;
