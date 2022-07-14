@@ -11,6 +11,6 @@ if (!['dev', 'prod'].includes(mode)) {
 
 module.exports = {
   nodeResolve: {exportConditions: mode === 'dev' ? ['development'] : []},
-  middlewares: [ range ],
+  middleware: [ range ],
   preserveSymlinks: true,
 };
