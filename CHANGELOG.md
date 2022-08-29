@@ -1,3 +1,9 @@
+## 0.1.7
+
+### Changes
+
+- Fixed time entries for handpose keyframes
+
 ## 0.1.6
 
 ### Changes

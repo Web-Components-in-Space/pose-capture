@@ -26,7 +26,7 @@ export const processFrame = async (source: VideoPoseBase, recordingStartTime: nu
         hands.forEach( (hand: Hand, index) => {
             if (hand.score > minConfidence) {
                 const keyframe: Keyframe = {
-                    time: Date.now() - recordingStartTime ? recordingStartTime : 0,
+                    time: Date.now() - recordingStartTime,
                     score: hand.score,
                     pose: index,
                     points: [],
