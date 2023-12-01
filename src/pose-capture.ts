@@ -1,10 +1,10 @@
 export * from './bodypix-video';
-export * from './facelandmark-video';
-export * from './posedetection-video';
-export * from './handpose-video';
-export * from './pose-player';
+export * as faceLandmarkVideo from './facelandmark-video';
+export * as poseDetectionVideo from './posedetection-video';
+export * as handPoseVideo from './handpose-video';
+export * as posePlayer from './pose-player';
 export * from './keyframeevent';
 export * from './ui/playbackcontrols';
-export * from './visualization-canvas';
+export * as visualizationCanvas from './visualization-canvas';
 export * from './baseplayer';
 export * from './events';

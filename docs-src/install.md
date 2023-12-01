@@ -28,5 +28,5 @@ For this element to work from unpkg.com specifically, you need to include the `?
 ### JavaScript
 
 ```html
-import {posedetection-video, facelandmark-video, handpose-video} from 'https://unpkg.com/pose-capture?module';
+import {poseDetectionVideo, faceLandmarkVideo, handPoseVideo} from 'https://unpkg.com/pose-capture?module';
 ```
