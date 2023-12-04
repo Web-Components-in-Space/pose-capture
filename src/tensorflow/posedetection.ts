@@ -17,9 +17,9 @@ export const load = async function() {
 
 export const processFrame = async (source: VideoPoseBase | ImageBitmap | HTMLImageElement | ImageData, recordingStartTime = 0, minConfidence = 0) => {
     const keyframes: Keyframe[] = [];
-    const width = ((source as VideoPoseBase).naturalSize.width || (source as ImageBitmap | HTMLImageElement | ImageData).width );
-    const height = ((source as VideoPoseBase).naturalSize.height || (source as ImageBitmap | HTMLImageElement | ImageData).height );
-    const aspectRatio  = ((source as VideoPoseBase).aspectRatio || width / height );
+    const width = ((source as VideoPoseBase).naturalSize?.width || (source as ImageBitmap | HTMLImageElement | ImageData).width );
+    const height = ((source as VideoPoseBase).naturalSize?.height || (source as ImageBitmap | HTMLImageElement | ImageData).height );
+    const aspectRatio  = ((source as VideoPoseBase)?.aspectRatio || width / height );
 
     if (detector) {
         const poses = await detector.estimatePoses((source as VideoPoseBase).videoElement || source);
