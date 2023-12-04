@@ -23,10 +23,13 @@ export const load = async function() {
 
 export const parts = bodypix.PART_CHANNELS;
 
-export const processFrame = async function (source: VideoPoseBase, recordingStartTime = 0, minConfidence = 0) {
+export const processFrame = async (source: VideoPoseBase | ImageBitmap | HTMLImageElement | ImageData, recordingStartTime = 0, minConfidence = 0) => {
     const keyframes: Keyframe[] = [];
+    const width = ((source as VideoPoseBase).naturalSize.width || (source as ImageBitmap | HTMLImageElement | ImageData).width );
+    const height = ((source as VideoPoseBase).naturalSize.height || (source as ImageBitmap | HTMLImageElement | ImageData).height );
+    const aspectRatio  = ((source as VideoPoseBase).aspectRatio || width / height );
     if (model) {
-        const parts = await model.segmentPersonParts(source.videoElement, {
+        const parts = await model.segmentPersonParts((source as VideoPoseBase).videoElement || source, {
             internalResolution: 'medium',
             segmentationThreshold: 0.7,
             maxDetections: 1,
@@ -41,7 +44,7 @@ export const processFrame = async function (source: VideoPoseBase, recordingStar
                     score: pose.score,
                     pose: index,
                     points: [],
-                    aspectRatio: source.aspectRatio
+                    aspectRatio: aspectRatio
                 }
                 pose.keypoints.forEach((keypoint: Keypoint) => {
                     if (keypoint.score >= minConfidence) {
@@ -49,8 +52,8 @@ export const processFrame = async function (source: VideoPoseBase, recordingStar
                             name: keypoint.part,
                             score: keypoint.score,
                             position: [
-                                keypoint.position.x / source.videoElement.width,
-                                keypoint.position.y / source.videoElement.height,
+                                keypoint.position.x / width,
+                                keypoint.position.y / height,
                             ]
                         });
                     }

@@ -15,10 +15,14 @@ export const load = async function() {
     });
 }
 
-export const processFrame = async (source: VideoPoseBase, recordingStartTime = 0, minConfidence = 0) => {
+export const processFrame = async (source: VideoPoseBase | ImageBitmap | HTMLImageElement | ImageData, recordingStartTime = 0, minConfidence = 0) => {
     const keyframes: Keyframe[] = [];
+    const width = ((source as VideoPoseBase).naturalSize.width || (source as ImageBitmap | HTMLImageElement | ImageData).width );
+    const height = ((source as VideoPoseBase).naturalSize.height || (source as ImageBitmap | HTMLImageElement | ImageData).height );
+    const aspectRatio  = ((source as VideoPoseBase).aspectRatio || width / height );
+
     if (detector) {
-        const poses = await detector.estimatePoses(source.videoElement);
+        const poses = await detector.estimatePoses((source as VideoPoseBase).videoElement || source);
         if (poses) {
             poses.forEach((pose: Pose, index: number) => {
                 const keyframe: Keyframe = {
@@ -26,7 +30,7 @@ export const processFrame = async (source: VideoPoseBase, recordingStartTime = 0
                     score: pose.score,
                     pose: index,
                     points: [],
-                    aspectRatio: source.aspectRatio
+                    aspectRatio
                 }
                 pose.keypoints?.forEach((keypoint: Keypoint) => {
                     if (keypoint.score && keypoint.score >= minConfidence) {
@@ -34,8 +38,8 @@ export const processFrame = async (source: VideoPoseBase, recordingStartTime = 0
                             name: keypoint.name,
                             score: keypoint.score,
                             position: [
-                                keypoint.x / source.naturalSize.width,
-                                keypoint.y / source.naturalSize.height,
+                                keypoint.x / width,
+                                keypoint.y / height,
                                 keypoint.z as number
                             ]
                         });

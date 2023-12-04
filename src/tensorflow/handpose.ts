@@ -19,10 +19,13 @@ export const load = async function() {
     detector = await handpose.createDetector(model, detectorConfig);
 }
 
-export const processFrame = async (source: VideoPoseBase, recordingStartTime: number, minConfidence = 0) => {
+export const processFrame = async (source: VideoPoseBase | ImageBitmap | HTMLImageElement | ImageData, recordingStartTime: number, minConfidence = 0) => {
     const keyframes: Keyframe[] = [];
+    const width = ((source as VideoPoseBase).naturalSize.width || (source as ImageBitmap | HTMLImageElement | ImageData).width );
+    const height = ((source as VideoPoseBase).naturalSize.height || (source as ImageBitmap | HTMLImageElement | ImageData).height );
+    const aspectRatio  = ((source as VideoPoseBase).aspectRatio || width / height );
     if (detector) {
-        const hands = await detector.estimateHands(source.videoElement);
+        const hands = await detector.estimateHands((source as VideoPoseBase).videoElement || source);
         hands.forEach( (hand: Hand, index) => {
             if (hand.score > minConfidence) {
                 const keyframe: Keyframe = {
@@ -30,7 +33,7 @@ export const processFrame = async (source: VideoPoseBase, recordingStartTime: nu
                     score: hand.score,
                     pose: index,
                     points: [],
-                    aspectRatio: source.aspectRatio
+                    aspectRatio: aspectRatio
                 }
                 // Todo: keypoints3D are in meters, how best to surface this data?
                 // console.log(hand.keypoints3D)
@@ -38,8 +41,8 @@ export const processFrame = async (source: VideoPoseBase, recordingStartTime: nu
                     keyframe.points.push({
                         name: keypoint.name,
                         position: [
-                            keypoint.x / source.videoElement.width,
-                            keypoint.y / source.videoElement.height]
+                            keypoint.x / width,
+                            keypoint.y / height]
                     });
                 })
                 keyframes.push(keyframe);
