@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>&lt;Single use pose detection Demo</title>
+    <script src="demos.js"></script>
+    <style>
+      p {
+        border: solid 1px blue;
+        padding: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <img src="./sampleassets/pose-example.png" />
+  </body>
+
+  <script type="module">
+    import { load, processFrame } from '../tensorflow/posedetection.js';
+    load().then(() => {
+      const keypoints = processFrame(document.body.querySelector('img')).then((keypoints) => {
+        console.log('keypoints', keypoints);
+      });
+    });
+  </script>
+</html>

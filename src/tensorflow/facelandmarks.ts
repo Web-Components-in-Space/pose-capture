@@ -22,8 +22,8 @@ export const load = async function() {
 
 export const processFrame = async (source: VideoPoseBase | ImageBitmap | HTMLImageElement | ImageData, recordingStartTime: number, options: FacelandmarksOptions) => {
     const keyframes: Keyframe[] = [];
-    const width = ((source as VideoPoseBase).naturalSize?.width || (source as ImageBitmap | HTMLImageElement | ImageData).width );
-    const height = ((source as VideoPoseBase).naturalSize?.height || (source as ImageBitmap | HTMLImageElement | ImageData).height );
+    const width = ((source as VideoPoseBase).naturalSize?.width || (source as HTMLImageElement).naturalWidth );
+    const height = ((source as VideoPoseBase).naturalSize?.height || (source as HTMLImageElement).naturalHeight );
     const aspectRatio  = ((source as VideoPoseBase).aspectRatio || width / height );
     if (model) {
         const predictions: AnnotatedPrediction[] = await model.estimateFaces({

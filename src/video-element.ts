@@ -3,13 +3,15 @@ import { BasePlayer } from "./baseplayer";
 
 export class VideoElement extends BasePlayer {
     static get observedAttributes() {
-        return ['usecamera', 'src', 'islooping', 'playbackrate']
+        return ['usecamera', 'src', 'islooping', 'playbackrate', 'isimage']
     }
 
     /**
      * video element
      */
     protected videoEl: HTMLVideoElement;
+
+    protected imageEl: HTMLImageElement;
 
     /**
      * video stream
@@ -54,6 +56,23 @@ export class VideoElement extends BasePlayer {
         }
     }
 
+    /**
+     * use camera
+     */
+    protected _isImage: boolean = this.hasAttribute('isimage');
+
+    public get isImage() {
+        return this._isImage;
+    }
+
+    public set isImage(val: boolean) {
+        if (val) {
+            this.setAttribute('isimage', '');
+        } else {
+            this.removeAttribute('isimage');
+        }
+    }
+
     constructor() {
         super();
         this.attachShadow( { mode: 'open' } );
@@ -72,7 +91,11 @@ export class VideoElement extends BasePlayer {
                     display: inline-block;
                 }
                 
-                video, ::slotted(*) {
+                img {
+                    display: none;
+                }
+                
+                video, img, ::slotted(*) {
                     position: absolute;
                 }
                     
@@ -81,10 +104,12 @@ export class VideoElement extends BasePlayer {
                 }
             </style>
             <video playsinline></video>
+            <img />
             <slot></slot>`;
         }
 
         this.videoEl = this.shadowRoot?.querySelector('video') as HTMLVideoElement;
+        this.imageEl = this.shadowRoot?.querySelector('img') as HTMLImageElement;
 
         if (this._isLooping) {
             this.videoEl.loop = true;
@@ -100,6 +125,10 @@ export class VideoElement extends BasePlayer {
                 this.play();
             }
         };
+
+        this.imageEl.onload = () => {
+            this.onMetadata();
+        }
 
         this.videoEl.onpause = () => {
             this._isPlaying = false;
@@ -167,10 +196,17 @@ export class VideoElement extends BasePlayer {
      * get video element's natural size
      */
     public override get naturalSize() {
-        return {
-            width: this.videoEl.videoWidth,
-            height: this.videoEl.videoHeight
-        };
+        if (this.isImage) {
+            return {
+                width: this.imageEl.naturalWidth,
+                height: this.imageEl.naturalHeight
+            };
+        } else {
+            return {
+                width: this.videoEl.videoWidth,
+                height: this.videoEl.videoHeight
+            };
+        }
     }
 
     /**
@@ -188,7 +224,7 @@ export class VideoElement extends BasePlayer {
     protected onMetadata() {
         this.resize();
         this.dispatchEvent(new Event(Events.METADATA, { bubbles: true, composed: true }));
-        this._duration = this.videoEl.duration * 1000;
+        this._duration = this.isImage? 0 : this.videoEl.duration * 1000;
         this.updateControls();
     }
 
@@ -203,9 +239,18 @@ export class VideoElement extends BasePlayer {
 
     protected async loadCurrentSource() {
         let sourceChange = false;
-        if (this.hasAttribute('src')) {
+        if (this.hasAttribute('src') && this.getAttribute('src')) {
             this.videoEl.srcObject = null;
-            this.videoEl.src = this.getAttribute('src') || '';
+
+            if (this._isImage) {
+                this.imageEl.src = this.getAttribute('src') || '';
+                this.imageEl.style.display = 'inherit';
+                this.videoEl.style.display = 'none';
+            } else {
+                this.videoEl.src = this.getAttribute('src') || '';
+                this.imageEl.style.display = 'none';
+                this.videoEl.style.display = 'inherit';
+            }
 
             if (this.stream) {
                 this.stream.getTracks()[0].stop();
@@ -246,6 +291,13 @@ export class VideoElement extends BasePlayer {
                 break;
             case 'usecamera':
                 this._useCamera = this.hasAttribute('usecamera');
+                if (this.isComponentMounted) {
+                    this.loadCurrentSource();
+                }
+                break;
+
+            case 'isimage':
+                this._isImage = this.hasAttribute('isimage');
                 if (this.isComponentMounted) {
                     this.loadCurrentSource();
                 }
@@ -305,6 +357,10 @@ export class VideoElement extends BasePlayer {
         this.videoEl.setAttribute('height', String(mediaScaledHeight));
         this.videoEl.style.left = `${letterBoxLeft}px`;
         this.videoEl.style.top = `${letterBoxTop}px`;
+        this.imageEl.style.width = `${String(mediaScaledWidth)}px`;
+        this.imageEl.style.height = `${String(mediaScaledHeight)}px`;
+        this.imageEl.style.left = `${letterBoxLeft}px`;
+        this.imageEl.style.top = `${letterBoxTop}px`;
     }
 
     protected disconnectedCallback() {

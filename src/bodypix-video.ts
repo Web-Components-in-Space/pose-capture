@@ -15,7 +15,12 @@ export class BodyPixVideo extends VideoPoseBase {
     }
 
     async poseDetectionFrame() {
-        if ((this.isPlaying || this.forceOneTimePoseProcess) && this.videoEl.readyState > 1) {
+        if (this.isImage) {
+            const result = await processFrame(this.imageEl, this.recordingStartTime as number, this.minConfidence / 100);
+            this.onPoseFrame(result);
+            this.forceOneTimePoseProcess = false;
+            return;
+        } else if ((this.isPlaying || this.forceOneTimePoseProcess) && this.videoEl.readyState > 1) {
             const result = await processFrame(this, this.recordingStartTime as number, this.minConfidence / 100);
             this.onPoseFrame(result);
             this.forceOneTimePoseProcess = false;
