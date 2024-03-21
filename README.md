@@ -1,3 +1,6 @@
+# Releases
+ - 0.4.0 Added "isimage" attribute to pose detection components to allow for image sources
+
 # Pose-Capture
 
 Pose Capture is a package which contains a number of custom elements related to capturing and recording poses in
